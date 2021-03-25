@@ -1,5 +1,8 @@
 package com.wine.easy.canal.type;
 
+import org.apache.ibatis.type.TypeException;
+
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -17,19 +20,54 @@ import java.util.Map;
  * @Description TODO
  */
 public class TypeHandlerRegister {
-    private static Map<Class,TypeHandler>  typeHandlerMap=new HashMap<>();
+    private static Map<Type,TypeHandler>  typeHandlerMap=new HashMap<>();
+    private static Class< ? extends TypeHandler> defaultEnumTypeHandler=EnumTypeHandler.class;
     static {
-        typeHandlerMap.put(Integer.class,new IntegerTypeHandler());
-        typeHandlerMap.put(BigDecimal.class,new BigDecimalTypeHandler());
-        typeHandlerMap.put(BigInteger.class,new BigIntegerTypeHandler());
-        typeHandlerMap.put(Boolean.class,new BooleanTypeHandler());
-        typeHandlerMap.put(Date.class,new DateTypeHandler());
-        typeHandlerMap.put(Integer.class,new IntegerTypeHandler());
-        typeHandlerMap.put(Long.class,new LongTypeHandler());
-        typeHandlerMap.put(Timestamp.class,new TimestampTypeHandler());
-        typeHandlerMap.put(String.class,new StringTypeHandler());
+        register((Type)Integer.class,new IntegerTypeHandler());
+        register((Class)Integer.TYPE, new IntegerTypeHandler());
+        register((Type)BigDecimal.class,new BigDecimalTypeHandler());
+        register((Type)BigInteger.class,new BigIntegerTypeHandler());
+        register((Type)Boolean.class,new BooleanTypeHandler());
+        register((Type)Boolean.TYPE,new BigDecimalTypeHandler());
+        register((Type)Date.class,new DateTypeHandler());
+        register((Type)Long.class,new LongTypeHandler());
+        register((Type)Long.TYPE,new LongTypeHandler());
+        register((Type)Timestamp.class,new TimestampTypeHandler());
+        register((Type)String.class,new StringTypeHandler());
     }
-    public static TypeHandler getTypeHandler(Class c){
-        return typeHandlerMap.get(c);
+    public static TypeHandler getTypeHandler(Type c){
+        if(!typeHandlerMap.containsKey(c)){
+            if (Enum.class.isAssignableFrom((Class)c)){
+                Class cs=(Class)c;
+                Class<?> enumClass = cs.isAnonymousClass() ? cs.getSuperclass() : cs;
+                register(c,(TypeHandler)getInstance(enumClass,defaultEnumTypeHandler));
+            }
+        }
+        TypeHandler typeHandler= typeHandlerMap.get(c);
+        return typeHandler;
+
+    }
+    public static void register(Type c,TypeHandler t){
+        typeHandlerMap.put(c,t);
+    }
+
+    public static <T> TypeHandler<T> getInstance(Class<?> javaTypeClass, Class<?> typeHandlerClass) {
+        Constructor c;
+        if (javaTypeClass != null) {
+            try {
+                c = typeHandlerClass.getConstructor(Class.class);
+                return (TypeHandler)c.newInstance(javaTypeClass);
+            } catch (NoSuchMethodException var5) {
+            } catch (Exception var6) {
+                throw new TypeException("Failed invoking constructor for handler " + typeHandlerClass, var6);
+            }
+        }
+
+        try {
+            c = typeHandlerClass.getConstructor();
+            return (TypeHandler)c.newInstance();
+        } catch (Exception var4) {
+            throw new TypeException("Unable to find a usable constructor for " + typeHandlerClass, var4);
+        }
     }
 }

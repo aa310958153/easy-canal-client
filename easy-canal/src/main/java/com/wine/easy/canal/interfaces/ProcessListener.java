@@ -12,7 +12,7 @@ import java.util.Map;
  * @Description TODO
  */
 public interface ProcessListener<T> {
-    public boolean update(T after, T before, List<String> updateFiled);
-    public boolean insert(T t);
-    public boolean delete(T t);
+    public void update(T after, T before, List<String> updateFiled);
+    public void insert(T t);
+    public void delete(T t);
 }

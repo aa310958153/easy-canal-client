@@ -93,7 +93,7 @@ public class ListenerMethodArgumentResolver {
             if (!classesReflector.hasGetter(filedName)) {
                 continue;
             }
-            Class setterType= classesReflector.getSetterType(filedName);
+            Type setterType= classesReflector.getSetterType(filedName);
             TypeHandler typeHandler= TypeHandlerRegister.getTypeHandler(setterType);
             if(typeHandler==null){
                 logger.error("未适配到typeHandle{},name:{},value:{},",setterType,filedName,column.getValue());
