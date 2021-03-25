@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/easy-canal/easy-canal.iml" filepath="$PROJECT_DIR$/easy-canal/easy-canal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/easy-canal-parent.iml" filepath="$PROJECT_DIR$/easy-canal-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/easy-canal-test/easy-canal-test.iml" filepath="$PROJECT_DIR$/easy-canal-test/easy-canal-test.iml" />
+    </modules>
+  </component>
+</project>
