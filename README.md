@@ -41,6 +41,7 @@ easy.canal.batchSize=1200
 ````
 #### 4.配置监听器
 ````
+//[数据库名字].[表名]
 @Table(name = "canal.act_activity")
 @Component
 public class ActivityCanalListener implements ProcessListener<Activity> {
