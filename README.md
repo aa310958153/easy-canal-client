@@ -31,13 +31,21 @@ test项目可以直接运行
     </bean>
     <context:component-scan base-package="com.wine.easy.canal.core"></context:component-scan>
 ````    
-#### 3.canal.properties配置
+#### 固定Ip,canal.properties配置
 ````
-#canalserver地址
-easy.canal.host=127.0.0.1
+#基于固定canal server的地址，建立链接，其中一台server发生crash，可以支持failover多个,号隔开
+#easy.canal.hosts=127.0.0.1:11111
 #canalserver端口
 easy.canal.port=11111
 #canalserver每个批次读取
+easy.canal.batchSize=1200
+````
+####基于zookeeper,canal.properties配置
+````
+#基于固定zookeeper的地址，建立链接，其中一台server发生crash，可以支持failover多个,号隔开
+easy.canal.zkHosts=192.168.20.4:2181
+#canalserver端口
+easy.canal.port=11111
 easy.canal.batchSize=1200
 ````
 #### 4.配置监听器

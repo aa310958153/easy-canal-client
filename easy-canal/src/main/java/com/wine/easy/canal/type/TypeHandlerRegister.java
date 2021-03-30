@@ -1,6 +1,7 @@
 package com.wine.easy.canal.type;
 
-import org.apache.ibatis.type.TypeException;
+
+import com.wine.easy.canal.exception.TypeException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Type;

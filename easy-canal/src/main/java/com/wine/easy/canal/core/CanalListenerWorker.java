@@ -51,12 +51,24 @@ public class CanalListenerWorker implements Runnable {
     public void end() {
         if (canalConnector != null) {
             canalConnector.disconnect();
+            canalConnector=null;
         }
     }
 
     public void canalConnector() {
-        canalConnector = CanalConnectors.newClusterConnector(Lists.newArrayList(new InetSocketAddress(canalContext.getCanalInfoConfig().getHost(), Integer.valueOf(canalContext.getCanalInfoConfig().getPort()))), canalContext.getCanalInfoConfig().getDestination(), canalContext.getCanalInfoConfig().getUsername(), canalContext.getCanalInfoConfig().getPassword());
+        canalConnector = ConnectionFactory.create(canalContext.getCanalInfoConfig());
         canalConnector.connect();
+        //这个方法的意思就是在jvm中增加一个关闭的钩子，当jvm关闭的时候，会执行系统中已经设置的所有通过方法addShutdownHook添加的钩子，当系统执行完这些钩子后，jvm才会关闭。所以这些钩子可以在jvm关闭的时候进行内存清理、对象销毁等操作。
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                logger.info("## stop the canal client");
+                 this.end();
+            } catch (Throwable e) {
+                logger.warn("##something goes wrong when stopping canal:", e);
+            } finally {
+                logger.info("## canal client is down.");
+            }
+        }));
         // 指定filter 监听的表 具体看文档
         Set<String> tables=canalContext.getRegister().getTables();
         String rule=tables.stream()

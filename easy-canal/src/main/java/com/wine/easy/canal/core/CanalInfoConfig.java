@@ -13,10 +13,10 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class CanalInfoConfig {
-    @Value("${easy.canal.host}")
-    private String host;
-    @Value("${easy.canal.port}")
-    private Integer port;
+    @Value("${easy.canal.hosts:#{null}}")
+    private String hosts;
+    @Value("${easy.canal.zkHosts}")
+    private String zkHosts;
     @Value("${easy.canal.batchSize}")
     private Integer batchSize;
     @Value("${easy.canal.destination:example}")
@@ -26,20 +26,20 @@ public class CanalInfoConfig {
     @Value("${easy.canal.password:#{null}}")
     private String password;
 
-    public String getHost() {
-        return host;
+    public String getHosts() {
+        return hosts;
     }
 
-    public void setHost(String host) {
-        this.host = host;
+    public void setHosts(String hosts) {
+        this.hosts = hosts;
     }
 
-    public Integer getPort() {
-        return port;
+    public String getZkHosts() {
+        return zkHosts;
     }
 
-    public void setPort(Integer port) {
-        this.port = port;
+    public void setZkHosts(String zkHosts) {
+        this.zkHosts = zkHosts;
     }
 
     public Integer getBatchSize() {
