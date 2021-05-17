@@ -1,15 +1,14 @@
-package com.easy.canal.test;
+package com.easy.canal.test.listener;
 
 import com.alibaba.fastjson.JSON;
+import com.easy.canal.test.entity.Activity;
 import com.wine.easy.canal.annotation.Table;
-import com.wine.easy.canal.core.CanalListenerWorker;
 import com.wine.easy.canal.interfaces.ProcessListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Project easy-canal-parent
@@ -28,8 +27,8 @@ public class ActivityCanalListener implements ProcessListener<Activity> {
     @Override
     public void update(Activity after, Activity before, List<String> updateFiled) {
         logger.info("-------------------------触发修改-------------------------");
-        logger.info("修改一条数据修改前:{}", JSON.toJSON(after));
-        logger.info("修改一条数据修改后:{}", JSON.toJSON(before));
+        logger.info("修改一条数据修改后:{}", JSON.toJSON(after));
+        logger.info("修改一条数据修改前:{}", JSON.toJSON(before));
         logger.info("修改一条数据修改字段:{}", JSON.toJSON(updateFiled));
         logger.info("-------------------------触发end-------------------------");
     }

@@ -1,4 +1,4 @@
-package com.easy.canal.test;
+package com.easy.canal.test.entity;
 
 import java.sql.Timestamp;
 import java.util.Date;

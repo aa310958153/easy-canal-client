@@ -44,7 +44,7 @@ public class ListenerMethodArgumentResolver {
         }
         return classNameMappingClass.get(processListener);
     }
-    public List<EditInfo> resolver(ProcessListener<?> processListener, CanalEntry.Entry entry) throws InvalidProtocolBufferException, ReflectionException, InvocationTargetException, IllegalAccessException, ParseException {
+    public List<EditMetaInfo> resolver(ProcessListener<?> processListener, CanalEntry.Entry entry) throws InvalidProtocolBufferException, ReflectionException, InvocationTargetException, IllegalAccessException, ParseException {
         Class c = getArgumentClass(processListener);
         CanalEntry.RowChange change;
         try {
@@ -57,10 +57,10 @@ public class ListenerMethodArgumentResolver {
         if (CollectionUtils.isEmpty(rowDatas)) {
             return null;
         }
-        List<EditInfo> objects=new ArrayList<>();
+        List<EditMetaInfo> objects=new ArrayList<>();
         for (CanalEntry.RowData rowData :
                 rowDatas) {
-            EditInfo editInfo=new EditInfo();
+            EditMetaInfo editInfo=new EditMetaInfo();
             editInfo.setAfter(columnsConvertObject(c,rowData.getAfterColumnsList()));
             editInfo.setBefore(columnsConvertObject(c,rowData.getBeforeColumnsList()));
             editInfo.setUpdatedProperty(getUpdatedUpdatedProperty(rowData.getAfterColumnsList()));

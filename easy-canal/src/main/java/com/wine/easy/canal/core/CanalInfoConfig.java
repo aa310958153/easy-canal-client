@@ -9,15 +9,15 @@ import org.springframework.context.annotation.Configuration;
  * @ClassName CanalInfoConfig
  * @Author qiang.li
  * @Date 2021/3/24 12:33 下午
- * @Description TODO
+ * @Description 用于config配置
  */
 @Configuration
 public class CanalInfoConfig {
     @Value("${easy.canal.hosts:#{null}}")
     private String hosts;
-    @Value("${easy.canal.zkHosts}")
+    @Value("${easy.canal.zkHosts:#{null}}")
     private String zkHosts;
-    @Value("${easy.canal.batchSize}")
+    @Value("${easy.canal.batchSize:100}")
     private Integer batchSize;
     @Value("${easy.canal.destination:example}")
     private String destination;

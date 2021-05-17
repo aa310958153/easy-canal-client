@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  * @ClassName ProcessListenerRegister
  * @Author qiang.li
  * @Date 2021/3/23 6:07 下午
- * @Description TODO
+ * @Description 用于封装注册所有的监听器
  */
 public class ProcessListenerRegister implements Register {
 

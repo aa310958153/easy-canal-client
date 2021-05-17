@@ -26,12 +26,14 @@ import java.util.stream.Collectors;
  * @ClassName CanalListenerWorker
  * @Author qiang.li
  * @Date 2021/3/24 10:11 上午
- * @Description TODO
+ * @Description 监听canal服务订阅binlog变动的work
  */
 public class CanalListenerWorker implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(CanalListenerWorker.class);
+    //对于请求结果的转换器
     private ListenerMethodArgumentResolver listenerMethodArgumentResolver = new ListenerMethodArgumentResolver();
     private CanalContext canalContext;
+    //canal连接
     private CanalConnector canalConnector;
 
     public CanalListenerWorker(CanalContext CanalContext) {
@@ -130,24 +132,24 @@ public class CanalListenerWorker implements Runnable {
 
     public void process(ProcessListener processListener, CanalEntry.Entry entry) throws InvalidProtocolBufferException, ReflectionException, InvocationTargetException, IllegalAccessException, ParseException {
         CanalEntry.EventType eventType = entry.getHeader().getEventType();
-        List<EditInfo> arguments = listenerMethodArgumentResolver.resolver(processListener, entry);;
+        List<EditMetaInfo> arguments = listenerMethodArgumentResolver.resolver(processListener, entry);;
         switch (eventType) {
             case INSERT:
 
-                for (EditInfo argument :
+                for (EditMetaInfo argument :
                         arguments) {
                     processListener.insert(argument.getAfter());
                 }
                 break;
             case UPDATE:
-                for (EditInfo argument :
+                for (EditMetaInfo argument :
                         arguments) {
                     processListener.update(argument.getAfter(), argument.getBefore(),argument.getUpdatedProperty());
                 }
 
                 break;
             case DELETE:
-                for (EditInfo argument :
+                for (EditMetaInfo argument :
                         arguments) {
                     processListener.delete(argument.getBefore());
                 }

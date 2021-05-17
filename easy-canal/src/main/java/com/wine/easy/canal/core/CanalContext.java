@@ -22,23 +22,23 @@ import java.util.Map;
  * @ClassName CanalContext
  * @Author qiang.li
  * @Date 2021/3/23 6:19 下午
- * @Description TODO
+ * @Description 初始化入口
  */
 @Component
-public class CanalContext implements InitializingBean, ApplicationContextAware, EnvironmentAware, DisposableBean {
+public class CanalContext implements InitializingBean, ApplicationContextAware, DisposableBean {
     @Autowired
     private CanalInfoConfig canalInfoConfig;
     private Register register;
     private ApplicationContext applicationContext;
-    private Environment environment;
-    private   CanalListenerWorker canalListenerWorker;
+    private CanalListenerWorker canalListenerWorker;
 
-    private String host;
 
     @Override
     public void afterPropertiesSet() throws Exception {
         register=new ProcessListenerRegister();
+        //注册监听器
         register.register(applicationContext.getBeansOfType(ProcessListener.class));
+        //启动working
         canalListenerWorker=new CanalListenerWorker(this);
         canalListenerWorker.start();
     }
@@ -58,16 +58,8 @@ public class CanalContext implements InitializingBean, ApplicationContextAware, 
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
          this.applicationContext=applicationContext;
     }
-    @Override
-    public void setEnvironment(Environment environment) {
-        this.environment=environment;
-    }
 
     public CanalInfoConfig getCanalInfoConfig() {
         return canalInfoConfig;
-    }
-
-    public void setCanalInfoConfig(CanalInfoConfig canalInfoConfig) {
-        this.canalInfoConfig = canalInfoConfig;
     }
 }

@@ -8,9 +8,9 @@ import java.util.List;
  * @ClassName EditInfo
  * @Author qiang.li
  * @Date 2021/3/24 9:47 下午
- * @Description TODO
+ * @Description 用于封装修改数据的Vo
  */
-public class EditInfo {
+public class EditMetaInfo {
     private Object after;
     private Object before;
     private List<String> updatedProperty;

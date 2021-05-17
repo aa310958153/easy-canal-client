@@ -1,4 +1,6 @@
-package com.easy.canal.test;
+package com.easy.canal.test.entity;
+
+import com.easy.canal.test.Sex;
 
 import java.io.Serializable;
 
