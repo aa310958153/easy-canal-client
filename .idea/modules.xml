@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/easy-canal/easy-canal.iml" filepath="$PROJECT_DIR$/easy-canal/easy-canal.iml" />
-      <module fileurl="file://$PROJECT_DIR$/easy-canal-parent.iml" filepath="$PROJECT_DIR$/easy-canal-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/easy-canal-client/easy-canal-client.iml" filepath="$PROJECT_DIR$/easy-canal-client/easy-canal-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/easy-canal-client-parent.iml" filepath="$PROJECT_DIR$/easy-canal-client-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/easy-canal-client-test/easy-canal-client-test.iml" filepath="$PROJECT_DIR$/easy-canal-client-test/easy-canal-client-test.iml" />
       <module fileurl="file://$PROJECT_DIR$/easy-canal-test/easy-canal-test.iml" filepath="$PROJECT_DIR$/easy-canal-test/easy-canal-test.iml" />
     </modules>
   </component>

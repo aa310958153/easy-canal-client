@@ -5,10 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.example</groupId>
       <packaging>pom</packaging>
-    <artifactId>easy-canal-parent</artifactId>
+    <artifactId>easy-canal-client-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>easy-canal</module>
-        <module>easy-canal-test</module>
+        <module>easy-canal-client</module>
+        <module>easy-canal-client-test</module>
     </modules>
+
 </project>

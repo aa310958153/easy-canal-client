@@ -7,12 +7,15 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="easy-canal-test" />
-        <module name="easy-canal" />
+        <module name="easy-canal-client" />
+        <module name="easy-canal-client-test" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="easy-canal" target="1.8" />
-      <module name="easy-canal-parent" target="1.8" />
+      <module name="easy-canal-client" target="1.8" />
+      <module name="easy-canal-client-parent" target="1.8" />
+      <module name="easy-canal-client-test" target="1.8" />
       <module name="easy-canal-test" target="1.8" />
     </bytecodeTargetLevel>
   </component>

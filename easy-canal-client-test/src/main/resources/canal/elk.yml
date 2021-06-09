@@ -1,0 +1,12 @@
+port: 8099
+jdbc:
+  url: jdbc:mysql://rm-2zeqc826391dt0lk2.mysql.rds.aliyuncs.com:3306/merge_test?useSSL=false&useUnicode=true&characterEncoding=utf8&autoReconnect=true
+  username: kuaihe
+  password: Kuaihe0910Mysql
+  driverClassName: com.mysql.jdbc.Driver
+dbMappings:
+  33:
+    table: merge_test.ord_pay_way
+    group: g1
+
+
