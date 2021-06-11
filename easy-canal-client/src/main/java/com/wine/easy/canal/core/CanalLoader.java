@@ -54,7 +54,7 @@ public class CanalLoader implements InitializingBean, ApplicationContextAware, D
             workerMap.put(group,canalListenerWorker);
         }
         httpServerLoader =new HttpServerLoader(register);
-        httpServerLoader.init();
+        httpServerLoader.start();
 
 
     }

@@ -1,5 +1,4 @@
-hosts:
-  127.0.0.1:11111
+hosts: 192.168.10.10:11111
 batchSize: 100
 groups:
   g1:

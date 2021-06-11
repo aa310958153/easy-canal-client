@@ -27,7 +27,7 @@ import java.io.IOException;
  * @Description TODO
  */
 
-public class HttpServerLoader {
+public class HttpServerLoader implements Runnable{
     private static final Logger log = LoggerFactory.getLogger(HttpServerLoader.class);
 
     private  CanalClientELKController canalClientELKController;
@@ -35,8 +35,30 @@ public class HttpServerLoader {
     public HttpServerLoader(Register register){
       this.register=register;
     }
-    public void init() throws IOException {
-        ELKConfig   elkConfig= CanalClientConfigurationLoader.loadElkConfig();
+
+    public void start() throws IOException {
+          new Thread(this).start();
+    }
+
+    /**
+     * When an object implementing interface <code>Runnable</code> is used
+     * to create a thread, starting the thread causes the object's
+     * <code>run</code> method to be called in that separately executing
+     * thread.
+     * <p>
+     * The general contract of the method <code>run</code> is that it may
+     * take any action whatsoever.
+     *
+     * @see Thread#run()
+     */
+    @Override
+    public void run() {
+        ELKConfig   elkConfig= null;
+        try {
+            elkConfig = CanalClientConfigurationLoader.loadElkConfig();
+        } catch (IOException e) {
+            log.error("配置文件加载失败",e);
+        }
         canalClientELKController = new CanalClientELKController(register,elkConfig);
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -52,7 +74,7 @@ public class HttpServerLoader {
             log.info("canal-client is server on http://127.0.0.1:{}/", port);
             channel.closeFuture().sync();
         } catch (InterruptedException e) {
-           log.error("启动服务异常",e);
+            log.error("启动服务异常",e);
         } finally {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
