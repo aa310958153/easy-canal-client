@@ -9,6 +9,7 @@ import com.wine.easy.canal.config.GroupConfig;
 import com.wine.easy.canal.exception.ReflectionException;
 import com.wine.easy.canal.interfaces.ProcessListener;
 import com.wine.easy.canal.tool.Dml;
+import com.wine.easy.canal.tool.MapUnderscoreToCamelCase;
 import com.wine.easy.canal.tool.MessageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,22 +42,20 @@ public class CanalListenerWorker implements Runnable {
     }
 
     public void start() {
-        canalConnector();
+
         startCanalListener();
     }
 
     public void startCanalListener() {
-        new Thread(this).start();
         logger.info("group:{}开始监听canal.......",groupConfig.getName());
+        new Thread(this).start();
     }
-
     public void end() {
         if (canalConnector != null) {
             canalConnector.disconnect();
             canalConnector = null;
         }
     }
-
     public void canalConnector() {
         canalConnector = ConnectionFactory.create(canalLoader.getCanalInfoConfig(), groupConfig.getDestination());
         canalConnector.connect();
@@ -84,6 +83,7 @@ public class CanalListenerWorker implements Runnable {
 
     @Override
     public void run() {
+        canalConnector();
         int emptyCount = 0;
         int batchSize = groupConfig.getBatchSize() == null ? canalLoader.getCanalInfoConfig().getBatchSize() : groupConfig.getBatchSize();
         while (true) {
@@ -109,7 +109,9 @@ public class CanalListenerWorker implements Runnable {
                                         process(processListener, dml);
                                     } catch (Exception e) {
                                         logger.error("业务异常处理失败", e);
-                                        processListener.errorCallback(dml);
+                                        if(!processListener.errorCallback(dml)){
+                                            throw e;
+                                        }
                                     }
                                 }
                             }
@@ -167,7 +169,11 @@ public class CanalListenerWorker implements Runnable {
             case "UPDATE":
                 for (EditMetaInfo argument :
                         arguments) {
-                    processListener.update(argument.getAfter(), argument.getBefore(), dml.getUpdatedNames());
+                    Set<String> updateFields=null;
+                    if(!CollectionUtils.isEmpty(dml.getUpdatedNames())){
+                        updateFields=dml.getUpdatedNames().stream().map(c-> MapUnderscoreToCamelCase.convertByCache(c)).collect(Collectors.toSet());
+                    }
+                    processListener.update(argument.getAfter(), argument.getBefore(), updateFields);
                 }
 
                 break;

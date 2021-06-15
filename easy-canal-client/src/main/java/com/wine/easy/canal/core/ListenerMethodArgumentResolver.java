@@ -129,6 +129,9 @@ public class ListenerMethodArgumentResolver {
         return o;
     }
     public Object columnsConvertObject(Class c,Map<String,Object> columns) throws ReflectionException, InvocationTargetException, IllegalAccessException, ParseException {
+        if(columns==null||columns.isEmpty()){
+            return null;
+        }
         Object o = objectFactory.create(c);
         Reflector classesReflector= reflectorFactory.findForClass(c);
         for (String columnName:

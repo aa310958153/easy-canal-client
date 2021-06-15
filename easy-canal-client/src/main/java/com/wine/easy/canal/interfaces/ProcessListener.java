@@ -20,7 +20,7 @@ import java.util.Set;
  * @Description TODO
  */
 public interface ProcessListener<T> {
-    public void update(T after, T before, Set<String> updateFiled);
+    public void update(T after, T before, Set<String> updateFields);
     public void insert(T t);
     public void delete(T t);
     static final Logger logger = LoggerFactory.getLogger(CanalListenerWorker.class);
