@@ -180,7 +180,7 @@ public class CanalListenerWorker implements Runnable {
             case "DELETE":
                 for (EditMetaInfo argument :
                         arguments) {
-                    processListener.delete(argument.getBefore());
+                    processListener.delete(argument.getAfter());
                 }
                 break;
             default:
