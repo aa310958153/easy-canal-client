@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -48,16 +49,23 @@ public class CanalClientConfigurationLoader {
     }
 
     private static File getResourceFile(final String path) throws IOException {
+        //针对java -jar 形式启动 读取资源路径
         try (InputStream input = CanalClientConfigurationLoader.class.getClassLoader().getResourceAsStream(path)) {
             if (null != input) {
                 String fileName=path.substring(path.lastIndexOf("/")+1);
-                logger.info("临时fileName:{}",fileName);
                 File file = new File(fileName);
                 //将读取到的类容存储到临时文件中，后面就可以用这个临时文件访问了
                 FileUtils.copyInputStreamToFile(input, file);
                 return file;
             }
             return new File(path);
+        }catch (FileNotFoundException e){
+            //尝试从classPath下读取
+           URL url= CanalClientConfigurationLoader.class.getResource(path);
+           if(url!=null) {
+               return new File(url.getFile());
+           }
+           throw e;
         }
     }
 
