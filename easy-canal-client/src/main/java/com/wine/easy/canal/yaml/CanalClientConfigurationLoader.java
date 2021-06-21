@@ -34,17 +34,18 @@ public class CanalClientConfigurationLoader {
     /**
      * Load configuration of
      *
-     * @param path configuration canal-client
      * @return configuration of canal-client
      * @throws IOException IO exception
      */
     public static CanalClientConfig load() throws IOException {
-        CanalClientConfig serverConfig = loadServerConfiguration(getResourceFile(CANAL_CONFIG_FILE));
+        File file=  getResourceFile(CANAL_CONFIG_FILE);
+        CanalClientConfig serverConfig = loadServerConfiguration(file);
         return serverConfig;
     }
 
     public static ELKConfig loadElkConfig() throws IOException {
-        ELKConfig elkConfig = loadElkConfig(getResourceFile(CANAL_ELK_CONFIG_FILE));
+        File file=getResourceFile(CANAL_ELK_CONFIG_FILE);
+        ELKConfig elkConfig = loadElkConfig(file);
         return elkConfig;
     }
 
@@ -56,9 +57,13 @@ public class CanalClientConfigurationLoader {
                 File file = new File(fileName);
                 //将读取到的类容存储到临时文件中，后面就可以用这个临时文件访问了
                 FileUtils.copyInputStreamToFile(input, file);
+                if(!file.exists()){
+                    throw new FileNotFoundException(String.format("notFund file path:%s",path));
+                }
                 return file;
+            }else{
+                throw new FileNotFoundException(String.format("notFund file path:%s",path));
             }
-            return new File(path);
         }catch (FileNotFoundException e){
             //尝试从classPath下读取
            URL url= CanalClientConfigurationLoader.class.getResource(path);
