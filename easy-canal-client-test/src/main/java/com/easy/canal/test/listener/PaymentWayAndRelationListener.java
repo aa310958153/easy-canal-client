@@ -3,6 +3,7 @@ package com.easy.canal.test.listener;
 import com.alibaba.fastjson.JSON;
 import com.easy.canal.test.entity.PaymentWayAndRelation;
 import com.wine.easy.canal.annotation.Table;
+import com.wine.easy.canal.config.CanalClientConfig;
 import com.wine.easy.canal.interfaces.ProcessListener;
 import com.wine.easy.canal.tool.Dml;
 import org.slf4j.Logger;
@@ -19,11 +20,10 @@ import java.util.Set;
  * @Author qiang.li
  * @Date 2021/4/8 4:18 下午
  */
-@Table(name = "merge_test.ord_pay_way",group = "g1")
+@Table(name = "${database}.ord_pay_way",group = "g1")
 @Component
 public class PaymentWayAndRelationListener implements ProcessListener<PaymentWayAndRelation> {
     private static final Logger logger = LoggerFactory.getLogger(PaymentWayAndRelationListener.class);
-
     @Override
     public void update(PaymentWayAndRelation after, PaymentWayAndRelation before, Set<String> updateFiled) {
         logger.info("-------------------------触发修改-------------------------");

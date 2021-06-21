@@ -3,4 +3,7 @@ batchSize: 100
 groups:
   g2:
     destination: example
+properties:
+  database: promotion_test
+
 
