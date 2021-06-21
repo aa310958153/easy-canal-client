@@ -38,7 +38,7 @@ public class CanalLoader implements InitializingBean, ApplicationContextAware, D
     @Override
     public void afterPropertiesSet() throws Exception {
         canalInfoConfig= CanalClientConfigurationLoader.load();
-        register=new ProcessListenerRegister(applicationContext);
+        register=new ProcessListenerRegister(applicationContext,canalInfoConfig);
         //注册监听器
         register.register(applicationContext.getBeansOfType(ProcessListener.class));
         for (String group:

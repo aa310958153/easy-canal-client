@@ -22,6 +22,7 @@ public class CanalClientConfig  extends YamlConfiguration {
     private String username;
     private String password;
     private Map<String,GroupConfig> groups;
+    private Map<String,String> properties;
     //对于请求结果的转换器
     public static ListenerMethodArgumentResolver LISTENERMETHODARGUMENTRESOLVER = new ListenerMethodArgumentResolver();
 
@@ -72,4 +73,13 @@ public class CanalClientConfig  extends YamlConfiguration {
     public void setGroups(Map<String, GroupConfig> groups) {
         this.groups = groups;
     }
+
+    public Map<String, String> getProperties() {
+        return properties;
+    }
+
+    public void setProperties(Map<String, String> properties) {
+        this.properties = properties;
+    }
+
 }

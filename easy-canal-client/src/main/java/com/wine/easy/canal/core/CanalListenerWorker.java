@@ -78,7 +78,7 @@ public class CanalListenerWorker implements Runnable {
         canalConnector.subscribe(rule);
         // 回滚寻找上次中断的位置
         canalConnector.rollback();
-        logger.info("group:{},canal客户端启动成功.......",groupConfig.getName());
+        logger.info("group:{},canal客户端启动成功.......,rule:{}",groupConfig.getName(),rule);
     }
 
     @Override

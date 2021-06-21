@@ -3,7 +3,7 @@ batchSize: 100
 groups:
   g2:
     destination: example
-properties:
+properties: #多环境配置@Table name属性占位符${database}
   database: promotion_test
 
 

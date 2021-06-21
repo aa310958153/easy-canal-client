@@ -24,6 +24,12 @@ public interface ProcessListener<T> {
     public void insert(T t);
     public void delete(T t);
     static final Logger logger = LoggerFactory.getLogger(CanalListenerWorker.class);
+
+    /**
+     * 理失败回调。不阻塞后续返回true则跳过,返回false会不断重试 但是会阻塞后续binlog 直到成功
+     * @param entry
+     * @return
+     */
     default boolean errorCallback(Dml entry){
         try {
             logger.info("出现异常,默认实现:{}", JSON.toJSONString(entry));
@@ -32,6 +38,11 @@ public interface ProcessListener<T> {
         }
         return true;
     }
+
+    /**
+     * elk用于全量或者增量
+     * @param datas
+     */
     default  void elk(List<T> datas){
         
     }

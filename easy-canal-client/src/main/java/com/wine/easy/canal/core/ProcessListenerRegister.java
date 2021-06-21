@@ -1,11 +1,14 @@
 package com.wine.easy.canal.core;
 
 import com.wine.easy.canal.annotation.Table;
+import com.wine.easy.canal.config.CanalClientConfig;
 import com.wine.easy.canal.interfaces.ProcessListener;
 import com.wine.easy.canal.interfaces.Register;
 import org.springframework.context.ApplicationContext;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -18,11 +21,13 @@ import java.util.stream.Collectors;
  */
 public class ProcessListenerRegister implements Register {
     private ApplicationContext applicationContext;
+    private CanalClientConfig canalClientConfig;
     private Map<String, ProcessListener> tabMappingListenerMap = new HashMap<String, ProcessListener>();
     private Map<String, List<ProcessListener>> groupMappingListenerMap = new HashMap<String, List<ProcessListener>>();
     private Map<String, Set<String>> groupTableMap = new HashMap<String, Set<String>>();
-    public ProcessListenerRegister(ApplicationContext applicationContext){
+    public ProcessListenerRegister(ApplicationContext applicationContext,CanalClientConfig canalClientConfig){
         this.applicationContext=applicationContext;
+        this.canalClientConfig=canalClientConfig;
     }
     public void register(Map<String, ProcessListener> processListenerMap) throws Exception {
         for (ProcessListener processListener :
@@ -35,7 +40,8 @@ public class ProcessListenerRegister implements Register {
         if (table==null&&table.length<=0) {
            return;
         }
-        tabMappingListenerMap.put(String.format("%s_%s",table[0].group(),table[0].name()),processListener);
+        String tableName=getParseValue(table[0].name());
+        tabMappingListenerMap.put(String.format("%s_%s",table[0].group(),tableName),processListener);
         String group= table[0].group();
         if(groupMappingListenerMap.get(group)==null){
             groupMappingListenerMap.put(group,new ArrayList<>());
@@ -45,17 +51,27 @@ public class ProcessListenerRegister implements Register {
         if(groupTableMap.get(group)==null){
             groupTableMap.put(group,new HashSet<>());
         }
-        groupTableMap.get(table[0].group()).add(getParseValue(table[0].name()));;
+        groupTableMap.get(table[0].group()).add(tableName);;
     }
     public String getParseValue(String value){
-       String tableName=value;
-        String startStar="${";
-       int indexStart=tableName.indexOf(startStar);
-       int end=tableName.length()-1;
-       if(indexStart==0&&end==tableName.length()-1){
-           tableName= applicationContext.getEnvironment().getProperty(tableName.substring(indexStart+2,end));
-       }
-       return tableName;
+        Pattern p = Pattern.compile("\\$\\{(?<data>[^\\{]+)\\}");
+        Matcher matcher=  p.matcher(value);
+        StringBuffer sr = new StringBuffer();
+        while (matcher.find()){
+          String propertiesValue=null;
+          String propertiesName=  matcher.group(1);
+          if(canalClientConfig.getProperties()!=null){
+              propertiesValue=canalClientConfig.getProperties().get(propertiesName);
+          }
+          if(propertiesValue==null){
+              propertiesValue=applicationContext.getEnvironment().getProperty(propertiesName);
+          }
+          if(propertiesValue!=null){
+              matcher.appendReplacement(sr,propertiesValue);
+          }
+              matcher.appendTail(sr);
+        }
+        return sr.length()>0?sr.toString():value;
     }
     public Set<String> getGroups(){
         return groupMappingListenerMap.keySet();
