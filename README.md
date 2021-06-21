@@ -1,6 +1,9 @@
 # easy-canal
-canal客户端，用户不需要关心如何同canal交互,只需要定义对应的监听器,对相应的CRUD做业务逻辑处理
-test项目可以直接运行 博客:https://www.cnblogs.com/LQBlog/tag/Canal/
+canal客户端，用户不需要关心如何同canal服务交互,只需要定义对应的监听器,对相应的CRUD做业务逻辑处理。
+
+elk支持全量以及根据条件全量增量 。
+
+博客:https://www.cnblogs.com/LQBlog/tag/Canal/
 ## 使用方式
 ### 1.引入依赖
 ```
@@ -91,4 +94,33 @@ public class PaymentWayAndRelationListener implements ProcessListener<PaymentWay
 }
 ````
 
-    
+## ELK使用方式
+### 1.elk配置 resources新增/canal/elk.yml
+````
+port: 8099 #ELK端口
+jdbc: #默认的elk数据源jdbc信息 可以在group里面配置每个group单独的
+  url: jdbc:mysql://127.0.0.1:3306/merge_test?useSSL=false&useUnicode=true&characterEncoding=utf8&autoReconnect=true
+  username: kuaihe
+  password: Kuaihe0910Mysql
+  driverClassName: com.mysql.jdbc.Driver
+dbMappings:
+  commitBatch: 1000 #默认的分批次处理
+  g1: #elk task的值
+    table: merge_test.ord_pay_way #对应的表
+    group: g1  #表名字+group 则对应处理器
+    commitBatch: 100 #分批次处理
+````
+### 2.使用
+````
+注:如果condition多个{}占位符,params:";"隔开 根据顺序设置参数
+
+post http://192.168.11.19:8079/canalClient/elk
+
+body:
+
+     {"task":"g1","condition":"where id={}","params":"839248604024786944"}
+
+response:
+
+{"resultMessage":"导入 数据：1 条","succeeded":true}
+````

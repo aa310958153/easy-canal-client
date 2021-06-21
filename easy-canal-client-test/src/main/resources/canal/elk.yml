@@ -1,10 +1,11 @@
 port: 8099 #ELK端口
-jdbc:
+jdbc: #默认的elk数据源jdbc信息 可以在group里面配置每个group单独的
   url: jdbc:mysql://127.0.0.1:3306/merge_test?useSSL=false&useUnicode=true&characterEncoding=utf8&autoReconnect=true
   username: kuaihe
   password: Kuaihe0910Mysql
   driverClassName: com.mysql.jdbc.Driver
 dbMappings:
+  commitBatch: 1000 #默认的分批次处理
   g1: #elk task的值
     table: merge_test.ord_pay_way #对应的表
     group: g1  #表名字+group 则对应处理器
