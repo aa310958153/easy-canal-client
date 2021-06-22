@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.example</groupId>
+    <version>1.0-SNAPSHOT</version>
+    <artifactId>easy-canal-client-spring-boot-started</artifactId>
+    <dependencies>
+        <!-- @ConfigurationProperties annotation processing (metadata for IDEs)
+                生成spring-configuration-metadata.json类，需要引入此类 主要用于ideal 通过点击yml或者properties属性跳转到你的配置类-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+            <version>2.1.2.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <version>2.1.2.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>easy-canal-client</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring</artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+    <distributionManagement>
+        <repository>
+            <id>kuaihe-nexus-1919-releases</id>
+            <url>http://nexus.1919.cn/repository/kuaihe-releases/</url>
+            <uniqueVersion>false</uniqueVersion>
+        </repository>
+        <snapshotRepository>
+            <id>kuaihe-nexus-1919-snapshots</id>
+            <url>http://nexus.1919.cn/repository/kuaihe-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+</project>

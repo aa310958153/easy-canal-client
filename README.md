@@ -30,8 +30,13 @@ elk支持全量以及根据条件全量增量 。
 ````    
 #### 2.2spring-boot项目配置
 ````
-在启动类加上@ComponentScan(basePackages = {"cn.wine.ms.promotion","com.wine.easy.canal.core"})
-注意 此注解会覆盖默认扫描，需要将默认启动类目录加上，我这里是"cn.wine.ms.promotion"
+加入pon依赖
+ <!--CANAL客户端-->
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>easy-canal-client-spring-boot-started</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 ````    
 ### 3.canal配置
 #### 3.1固定Ip配置,resources新增/canal/canal.yml
@@ -110,7 +115,20 @@ dbMappings:
     group: g1  #表名字+group 则对应处理器
     commitBatch: 100 #分批次处理
 ````
-### 2.使用
+### 2.ProcessListener elk实现
+````
+    /**
+     * 可以根据指定条件全量 如: where create_time>='2020-01-02'
+     * @param datas
+     */
+    @Override
+    public void elk(List<PaymentWayAndRelation> datas) {
+        for(PaymentWayAndRelation paymentWayAndRelation:datas) {
+            logger.info("elk{}", JSON.toJSON(paymentWayAndRelation));
+        }
+    }
+````
+### 3.使用
 ````
 注:如果condition多个{}占位符,params:";"隔开 根据顺序设置参数
 

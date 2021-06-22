@@ -10,6 +10,7 @@
     <modules>
         <module>easy-canal-client</module>
         <module>easy-canal-client-test</module>
+        <module>easy-canal-client-spring-boot-started</module>
     </modules>
 
 </project>
