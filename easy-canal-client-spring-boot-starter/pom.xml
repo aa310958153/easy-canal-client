@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.example</groupId>
     <version>1.0-SNAPSHOT</version>
-    <artifactId>easy-canal-client-spring-boot-started</artifactId>
+    <artifactId>easy-canal-client-spring-boot-starter</artifactId>
     <dependencies>
         <!-- @ConfigurationProperties annotation processing (metadata for IDEs)
                 生成spring-configuration-metadata.json类，需要引入此类 主要用于ideal 通过点击yml或者properties属性跳转到你的配置类-->
