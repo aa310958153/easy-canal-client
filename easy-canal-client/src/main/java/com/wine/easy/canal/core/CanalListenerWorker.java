@@ -115,26 +115,6 @@ public class CanalListenerWorker implements Runnable {
                                     }
                                 }
                             }
-//                        for (CanalEntry.Entry entry :
-//                                entries) {
-//                            if (entry.getEntryType() == CanalEntry.EntryType.ROWDATA) {
-//                                String database = entry.getHeader().getSchemaName();
-//                                String table = entry.getHeader().getTableName();
-//                                String key = String.format("%s.%s", database, table);
-//                                ProcessListener<?> processListener = canalLoader.getRegister().routingListener(groupConfig.getName(),key);
-//                                if (processListener == null) {
-//                                    logger.warn("未找到对应的处理器key:{}", key);
-//                                    continue;
-//                                }
-//
-//                                try {
-//                                    process(processListener, entry);
-//                                }catch (Exception e){
-//                                   logger.error("业务异常处理失败",e);
-//                                   processListener.errorCallback(entry);
-//                                }
-//                            }
-                     //  }
                     } else {
                         emptyCount++;
                         Thread.yield();

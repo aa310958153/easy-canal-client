@@ -34,7 +34,7 @@ elk支持全量以及根据条件全量增量 。
  <!--CANAL客户端-->
         <dependency>
             <groupId>org.example</groupId>
-            <artifactId>easy-canal-client-spring-boot-started</artifactId>
+            <artifactId>easy-canal-client-spring-boot-starter</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 ````    

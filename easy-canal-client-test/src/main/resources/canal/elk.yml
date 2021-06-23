@@ -5,10 +5,10 @@ jdbc: #默认的elk数据源jdbc信息 可以在group里面配置每个group单�
   password: Kuaihe0910Mysql
   driverClassName: com.mysql.jdbc.Driver
 dbMappings:
-  commitBatch: 1000 #默认的分批次处理
+  commitBatch: 1000 #多少数据为一个事物  默认大于10000就是多线程处理
   g1: #elk task的值
     table: merge_test.ord_pay_way #对应的表
     group: g1  #表名字+group 则对应处理器
-    commitBatch: 100 #分批次处理
+    commitBatch: 100 #多少数据提交一个事物
 
 
