@@ -92,7 +92,7 @@ public class PaymentWayAndRelationListener implements ProcessListener<PaymentWay
      * @param entry
      */
     @Override
-    public boolean errorCallback(Dml entry) {
+    public boolean errorCallback(Dml entry,Exception e) {
        //记录日志后续补偿
         return true;
     }
@@ -105,8 +105,8 @@ public class PaymentWayAndRelationListener implements ProcessListener<PaymentWay
 port: 8099 #ELK端口
 jdbc: #默认的elk数据源jdbc信息 可以在group里面配置每个group单独的
   url: jdbc:mysql://127.0.0.1:3306/merge_test?useSSL=false&useUnicode=true&characterEncoding=utf8&autoReconnect=true
-  username: kuaihe
-  password: Kuaihe0910Mysql
+  username: root
+  password: 123456
   driverClassName: com.mysql.jdbc.Driver
 dbMappings:
   commitBatch: 1000 #默认的分批次处理
