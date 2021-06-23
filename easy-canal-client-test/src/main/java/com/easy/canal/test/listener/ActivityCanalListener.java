@@ -5,6 +5,7 @@ import com.alibaba.otter.canal.protocol.CanalEntry;
 import com.easy.canal.test.entity.Activity;
 import com.wine.easy.canal.annotation.Table;
 import com.wine.easy.canal.interfaces.ProcessListener;
+import com.wine.easy.canal.tool.Dml;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -43,6 +44,19 @@ public class ActivityCanalListener implements ProcessListener<Activity> {
     @Override
     public void delete(Activity activity) {
         logger.info("删除一条数据{}", JSON.toJSON(activity));
+    }
+
+    /**
+     * 理失败回调。不阻塞后续返回true则跳过,返回false会不断重试 但是会阻塞后续binlog 直到成功
+     *
+     * @param entry
+     * @param ex
+     * @return
+     */
+    @Override
+    public boolean errorCallback(Dml entry, Exception ex) {
+        logger.error("出现异常:dml:{}",JSON.toJSONString(entry),ex);
+        return true;
     }
 
 

@@ -41,6 +41,21 @@ public class PaymentWayAndRelationListener implements ProcessListener<PaymentWay
     public void delete(PaymentWayAndRelation paymentWayAndRelation) {
         logger.info("删除一条数据{}", JSON.toJSON(paymentWayAndRelation));
     }
+
+    /**
+     * 理失败回调。不阻塞后续返回true则跳过,返回false会不断重试 但是会阻塞后续binlog 直到成功
+     *
+     * @param entry
+     * @param ex
+     * @return
+     */
+    @Override
+    public boolean errorCallback(Dml entry, Exception ex) {
+        logger.error("出现异常:dml:{}",JSON.toJSONString(entry),ex);
+        return true;
+    }
+
+
     /**
      * 可以根据指定条件全量 如: where create_time>='2020-01-02'
      * @param datas
@@ -55,9 +70,5 @@ public class PaymentWayAndRelationListener implements ProcessListener<PaymentWay
      * 处理失败回调。不阻塞后续返回true则跳过,返回false会不断重试
      * @param entry
      */
-    @Override
-    public boolean errorCallback(Dml entry) {
-       //记录日志后续补偿
-        return true;
-    }
+
 }

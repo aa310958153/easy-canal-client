@@ -30,14 +30,7 @@ public interface ProcessListener<T> {
      * @param entry
      * @return
      */
-    default boolean errorCallback(Dml entry){
-        try {
-            logger.info("出现异常,默认实现:{}", JSON.toJSONString(entry));
-        }catch (Exception e ){
-            logger.error("序列化异常",e);
-        }
-        return true;
-    }
+     boolean errorCallback(Dml entry,Exception ex);
 
     /**
      * elk用于全量或者增量
