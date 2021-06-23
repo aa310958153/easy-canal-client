@@ -109,7 +109,7 @@ public class CanalListenerWorker implements Runnable {
                                         process(processListener, dml);
                                     } catch (Exception e) {
                                         logger.error("业务异常处理失败", e);
-                                        if(!processListener.errorCallback(dml)){
+                                        if(!processListener.errorCallback(dml,e)){
                                             throw e;
                                         }
                                     }
