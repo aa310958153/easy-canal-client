@@ -47,7 +47,7 @@ public class CanalListenerWorker implements Runnable {
     }
 
     public void startCanalListener() {
-        logger.info("group:{}开始监听canal.......",groupConfig.getName());
+        logger.info("canal客户端准备启动.......groupName:{},destination:{}",groupConfig.getName(),groupConfig.getDestination());
         new Thread(this).start();
     }
     public void end() {
@@ -78,7 +78,7 @@ public class CanalListenerWorker implements Runnable {
         canalConnector.subscribe(rule);
         // 回滚寻找上次中断的位置
         canalConnector.rollback();
-        logger.info("group:{},canal客户端启动成功.......,rule:{}",groupConfig.getName(),rule);
+        logger.info("canal客户端启动成功.......,group:{},destination:{},rule:{}",groupConfig.getName(),groupConfig.getDestination(),rule);
     }
 
     @Override

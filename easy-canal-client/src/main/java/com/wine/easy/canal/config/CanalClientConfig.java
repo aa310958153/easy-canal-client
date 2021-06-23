@@ -15,7 +15,7 @@ import java.util.Map;
  * @Description 用于config配置
  */
 @Configuration
-public class CanalClientConfig  extends YamlConfiguration {
+public class  CanalClientConfig  extends YamlConfiguration {
     private String hosts;
     private String zkHosts;
     private Integer batchSize;
