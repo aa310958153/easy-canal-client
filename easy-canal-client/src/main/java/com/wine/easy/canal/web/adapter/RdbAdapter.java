@@ -90,6 +90,8 @@ public class RdbAdapter {
 
             // 获取总数
             String countSql = "SELECT COUNT(1) FROM ( " + sql + ") _CNT ";
+
+
             long cnt = (Long) Util.sqlRS(dataSource, countSql, values, rs -> {
                 Long count = null;
                 try {
@@ -101,7 +103,9 @@ public class RdbAdapter {
                 }
                 return count == null ? 0L : count;
             });
-
+            if (logger.isDebugEnabled()) {
+                logger.debug("etl count:{}",cnt);
+            }
             // 当大于1万条记录时开启多线程
             if (cnt >= 10000) {
                 //获取当前机器核数
