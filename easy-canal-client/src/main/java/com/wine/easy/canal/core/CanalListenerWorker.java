@@ -198,9 +198,9 @@ public class CanalListenerWorker implements Runnable {
 //
 //    }
 
-    public void sleep(Integer second) {
+    public void sleep(Integer millis) {
         try {
-            Thread.sleep(second);
+            Thread.sleep(millis);
         } catch (InterruptedException interruptedException) {
             interruptedException.printStackTrace();
         }

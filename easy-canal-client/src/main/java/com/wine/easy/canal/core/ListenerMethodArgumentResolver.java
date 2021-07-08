@@ -138,6 +138,9 @@ public class ListenerMethodArgumentResolver {
                 columns.keySet()) {
             String filedName=MapUnderscoreToCamelCase.convertByCache(columnName);
             Object value=columns.get(columnName);
+            if(value==null){
+                continue;
+            }
             if (!classesReflector.hasGetter(filedName)) {
                 continue;
             }
@@ -150,5 +153,7 @@ public class ListenerMethodArgumentResolver {
         }
         return o;
     }
+
+
 
 }
